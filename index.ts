@@ -4,13 +4,14 @@ import express from "express";
 const app = express();
 const port = 3000;
 
+app.set("view engine", "ejs")
 
+
+app.use(express.static('static'));
 
 app.get("/", (req, res, next) => {
-    res.status(200).send("<h1>Hello World !!!</h1>")
+    res.render("index");
 })
-
-
 
 
 
