@@ -11,10 +11,20 @@
 <body class="bg-background text-text">
     <!-- <h1 _="on click log 'Hello World'" class="">Hello World</h1> -->
     <main class="p-4">
-        <label for="dec">Decimal: </label><input _="
-        on keyup call my value as a Number's toString(16) then put the result into the next <span />" type="text" class="border border-text" id="dec">
+        <select id="convert-from" _="on change send keyup to the next <input />">
+            <option value="10">Decimal</option>
+            <option value="16">Hexadecimal</option>
+            <option value="2">Binary</option>
+        </select>
+        <input _="on keyup call parseInt(my value, #convert-from's value as a Number) then call the result's toString(#convert-to's value as a Number) then put the result into the next <span />" type="text" class="border border-text" id="dec">
         <!-- <label for="hex">Hex</label><input type="text" class="border border-text" id="hex"> -->
-        <p>Hex: <span class="font-bold"></span></p>
+        <select id="convert-to" _="on change send keyup to the previous <input />">
+            <option value="10">Decimal</option>
+            <option default value="16">Hexadecimal</option>
+            <option value="2">Binary</option>
+        </select>
+        <p><span class="font-bold"></span>
+        <a href="#" _="on click halt then call navigator.clipboard.writeText(beep! the previous <span />'s innerText)">Copy</a></p>
     </main>
 </body>
 </html>
