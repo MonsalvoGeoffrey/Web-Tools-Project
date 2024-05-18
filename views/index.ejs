@@ -5,26 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Tools</title>
     <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="style/tailwind.css">
 </head>
 <body class="bg-background text-text">
-    <!-- <h1 _="on click log 'Hello World'" class="">Hello World</h1> -->
+    <header class="m-4 bg-primary">
+        <nav>
+            <p>Hello World</p>
+        </nav>
+    </header>
     <main class="p-4">
-        <select id="convert-from" _="on change send keyup to the next <input />">
-            <option value="10">Decimal</option>
-            <option value="16">Hexadecimal</option>
-            <option value="2">Binary</option>
-        </select>
-        <input _="on keyup call parseInt(my value, #convert-from's value as a Number) then call the result's toString(#convert-to's value as a Number) then put the result into the next <span />" type="text" class="border border-text" id="dec">
-        <!-- <label for="hex">Hex</label><input type="text" class="border border-text" id="hex"> -->
-        <select id="convert-to" _="on change send keyup to the previous <input />">
-            <option value="10">Decimal</option>
-            <option default value="16">Hexadecimal</option>
-            <option value="2">Binary</option>
-        </select>
-        <p><span class="font-bold"></span>
-        <a href="#" _="on click halt then call navigator.clipboard.writeText(beep! the previous <span />'s innerText)">Copy</a></p>
+        <section x-data="{ value: 0, from: 10, to: 2 }">
+            <select x-model="from">
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+                <option value="2">Binary</option>
+            </select>
+            <input type="text" class="border border-text" x-model="value">
+            <select x-model="to">
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+                <option value="2">Binary</option>
+            </select>
+            <p class="font-bold" x-text="parseInt(value,from).toString(to)"></p>
+            <p @click="navigator.clipboard.writeText(parseInt(value,from).toString(to))">Copy</p>
+        </section>
     </main>
 </body>
 </html>

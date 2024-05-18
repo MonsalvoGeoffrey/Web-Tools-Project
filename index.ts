@@ -21,4 +21,4 @@ app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`)
 })
 
-console.log("Hello via Bun!");
+console.log("Hello via UnBun!");
