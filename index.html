@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoarfrost's Toolbox</title>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <!-- Alpine -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="scripts/plugin/alpine/jsz.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-clipboard@2.x.x/dist/alpine-clipboard.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- -->
+    <link rel="stylesheet" href="style/tailwind.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <script src="scripts/script.js"></script>
+</head>
+<body class="bg-background text-text" x-data="{tab: $persist('nb-converter'), modalOpen: false}" >
+
+    <div x-show="modalOpen" @keydown.prevent.ctrl.p.window="modalOpen = true" class=" absolute w-screen h-screen flex items-center justify-center z" >
+        <div @click.outside="modalOpen = false" class=" bg-white shadow-[0_0_2vw_100vw_rgba(0,0,0,0.5)] p-4 border-2 rounded-lg">
+            <p>Hello World ! ^^</p>
+        </div>
+    </div>
+
+    <header class="p-4 bg-primary">
+        <nav class=" flex flex-wrap gap-4 items-center w-full">
+            <button @click="tab='nb-converter'" class=" bg-secondary p-2 rounded-lg hover:bg-accent border-2 border-text " :class="{ 'brightness-125': tab==='nb-converter' }">Number Converter</button>
+            <button @click="tab='char-count'" class=" bg-secondary p-2 rounded-lg hover:bg-accent border-2 border-text " :class="{ 'brightness-125': tab==='char-count' }">Word/Char Counter</button>
+            <!-- I hate empty divs to space out flexes -->
+            <div class=" grow"></div>
+            <a href='https://ko-fi.com/N4N4AB0ZE' target='_blank' class=""><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+        </nav>
+    </header>
+    <main class="p-4" x-cloak>
+        <section x-show="tab==='nb-converter'" x-data="{ value: '0', from: 10, to: 2 }">
+            <select x-model="from" class=" border border-text">
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+                <option value="2">Binary</option>
+            </select>
+            <input type="text" class="border border-text px-2" x-model="value">
+            <select x-model="to" class=" border border-text">
+                <option value="10">Decimal</option>
+                <option value="16">Hexadecimal</option>
+                <option value="2">Binary</option>
+            </select>
+            <p class="font-bold" x-jsz>Result: {{ parseInt(value,from).toString(to) }}</p>
+            <button class=" bg-secondary rounded-lg hover:bg-accent border-2 border-text p-1" @click="$clipboard(parseInt(value,from).toString(to)).then(() => {$tooltip('Successfully copied !')} )">Copy</button>
+        </section>
+        <section x-show="tab==='char-count'" x-data="{ value: '' }">
+            <textarea name="" id="" rows="10" class=" w-full border-text border p-2 rounded-lg" x-model="value"></textarea>
+            <p x-jsz>Characters: {{ value.length }}</p>
+            <p x-jsz>Words: {{ count(value, /\b\w+\b/g) }}</p>
+            <p x-jsz>Lines: {{ value.split('\n').length }}</p>
+        </section>
+    </main>
+</body>
+</html>
